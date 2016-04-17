@@ -65,3 +65,6 @@ target/
 bin/
 lib64
 pyvenv.cfg
+
+# Local Databse
+db.sqlite3
