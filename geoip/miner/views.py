@@ -5,4 +5,4 @@ from django.http import HttpResponse
 
 
 def index_view(request, *args, **kwargs):
-    return HttpResponse("Hello World!")
+    return render(request, "miner/index.html", {})
