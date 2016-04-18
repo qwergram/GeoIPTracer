@@ -26,11 +26,7 @@ function get_ips(url) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      if (done.indexOf(url) == -1) {
-        build_tr(xhttp.responseText);
-        done.push(url);
-      }
-
+      build_tr(xhttp.responseText);
     }
   };
   xhttp.open("GET", "/query/?url=" + url, true);
@@ -41,20 +37,27 @@ function get_urls(url) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      if (done.indexOf(url) == -1) {
-        to_research = to_research.concat(eval(xhttp.responseText));
-      }
-
+      to_research = to_research.concat(eval(xhttp.responseText));
     }
   };
   xhttp.open("GET", "/urls/?url=" + url, true);
   xhttp.send();
 }
 
-function main() {
-
-
-
+function handle_one_url() {
+  url = to_research.shift();
+  if (done.indexOf(url) == -1) {
+    get_ips(url);
+    get_urls(url);
+  }
 }
+
+function main() {
+  i = 0;
+  n = 100;
+  setInterval(function() { i++; if (i < n) { handle_one_url(); } }, 1000);
+}
+
+main()
 
 </script>
