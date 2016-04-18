@@ -13,20 +13,37 @@
   <br/>
 </div>
 <script>
+to_research = ['{{url}}'];
+
+function main(){
   var build_tr = function() {
     var new_result = document.createElement('div');
     new_result.innerHTML = xhttp.responseText;
     document.getElementById("results").appendChild(new_result);
   }
-  to_research = ['{{url}}'];
   while (to_research.length > 0) {
+    this_round = to_research.shift();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         build_tr();
       }
     };
-    xhttp.open("GET", "/query/?url=" + to_research.shift(), true);
+    xhttp.open("GET", "/query/?url=" + this_round, true);
     xhttp.send();
+
+    var url_xhttp = new XMLHttpRequest();
+    url_xhttp.onreadystatechange = function() {
+      if (url_xhttp.readyState == 4 && url_xhttp.status == 200) {
+        urls = eval(url_xhttp.responseText);
+        console.log(urls);
+        to_research = to_research.concat(urls);
+        main();
+      }
+    };
+    url_xhttp.open("GET", "/urls/?url=" + this_round, true);
+    url_xhttp.send();
   }
+}
+
 </script>
