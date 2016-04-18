@@ -19,6 +19,6 @@ from miner.views import index_view, form_submission
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', index_view),
-    url(r'^submit/$', form_submission)
+    url(r'^$', index_view, name="index"),
+    url(r'^submit/$', form_submission, name="submit")
 ]
