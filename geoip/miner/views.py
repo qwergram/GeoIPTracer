@@ -4,6 +4,7 @@ import requests
 import socket
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
+from .models import HTML_Log
 
 # Create your views here.
 
@@ -12,7 +13,12 @@ API_ENDPOINT = "http://ip-api.com/json/"
 def api_ip(request, *args, **kwargs):
     url = request.GET.get('url')
     if url:
-        
+        # Check if we have an html log for this
+        qs = HTML_Log.objects.filter(url=url)
+        if qs:
+            return HttpResponse("It exists!")
+        else:
+            return HttpResponse("It doesn't exist...")
 
 def get_urls(request, *args, **kwargs):
     url = request.GET.get('url')
