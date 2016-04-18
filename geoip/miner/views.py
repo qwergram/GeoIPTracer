@@ -3,6 +3,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+def test(request):
+    return HttpResponse("test")
 
 def index_view(request, *args, **kwargs):
     return render(request, "miner/index.html", {})
