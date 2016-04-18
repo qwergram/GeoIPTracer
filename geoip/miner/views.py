@@ -15,6 +15,8 @@ def get_urls(request, *args, **kwargs):
     if url:
         data = requests.get(url)
         if not data.ok:
+            import pdb; pdb.set_trace()
+            
             raise Http404("Bad url")
         soup = BeautifulSoup(data.text)
         urls = soup.find_all("a", href=True)
