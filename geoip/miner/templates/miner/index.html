@@ -1,8 +1,7 @@
 <h1>GeoIP Locator Alpha!</h1>
 <img src="http://i.imgur.com/f7PbKa9.png">
 <hr>
-<form action="/submit/" method="POST">
+<form action="/submit/" method="GET">
   <input type="text" placeholder="Type a url here" name="url">
-  {% csrf_token %}
   <input type="submit">
 </form>
