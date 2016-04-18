@@ -14,7 +14,7 @@
         document.getElementById("results").appendChild(new_result);
       }
     };
-    xhttp.open("GET", "/query/" + to_research.shift(), true);
+    xhttp.open("GET", "/query/?url=" + to_research.shift(), true);
     xhttp.send();
   }
 </script>
