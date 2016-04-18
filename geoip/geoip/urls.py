@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from miner.views import index_view, form_submission, test, query
+from miner.views import index_view, form_submission, test, query, get_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^submit/$', form_submission, name="submit"),
     url(r'^test/$', test, name="test"),
     url(r'^query/', query, name="query"),
+    url(r'^urls/', get_urls, name="urls")
 ]
