@@ -21,16 +21,28 @@ class Location(models.Model):
 
 
 class IP_Geo(models.Model):
+
+    class Meta:
+        verbose_name = "IP Record"
+
     ip = models.GenericIPAddressField(unique=True)
     location = models.ForeignKey("Location")
 
 
 class URL_Log(models.Model):
+
+    class Meta:
+        verbose_name = "URL Record"
+
     url = models.URLField(unique=True)
     ip = models.ManyToManyField("IP_Geo", related_name="urls")
 
 
 class HTML_Log(models.Model):
+
+    class Meta:
+        verbose_name = "HTML Record"
+
     url = models.ForeignKey("URL_Log")
     html = models.TextField()
     urls = models.ManyToManyField("URL_Log", related_name="appears_in")
