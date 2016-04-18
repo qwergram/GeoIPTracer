@@ -1,12 +1,29 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 import requests
 import socket
+from bs4 import BeautifulSoup
 
 # Create your views here.
 
 API_ENDPOINT = "http://ip-api.com/json/"
 
+
+def get_urls(request, *args, **kwargs):
+    url = request.GET.get('url')
+    if url:
+        data = requests.get(url)
+        if not data.ok:
+            raise Http404("Bad url")
+        soup = BeautifulSoup(data.text)
+        urls = soup.find_all("a", href=True)
+        to_return = []
+        for url in urls:
+            url = url.get("href")
+            if url.startswith('http'):
+                to_return.append(url)
+        return JsonResponse(to_return, safe=False)
+    raise Http404("no url")
 
 def query(request, *args, **kwargs):
     url = request.GET.get('url')
