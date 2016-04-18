@@ -2,24 +2,28 @@
 <img src="http://i.imgur.com/f7PbKa9.png">
 <hr>
 <h3>Results for <a href="{{url}}">{{url}}</a></h3>
-<table id="results">
-  <tr>
-    <th>URL</th>
-    <th>IP address</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-    <th>Country</th>
-  </tr>
-</table>
+<div id="results">
+  <div>
+    <div>URL</div>
+    <div>IP address</div>
+    <div>Latitude</div>
+    <div>Longitude</div>
+    <div>Country</div>
+  </div>
+  <br/>
+</div>
 <script>
+  var build_tr = function() {
+    var new_result = document.createElement('div');
+    new_result.innerHTML = xhttp.responseText;
+    document.getElementById("results").appendChild(new_result);
+  }
   to_research = ['{{url}}'];
   while (to_research.length > 0) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
-        var new_result = document.createElement('tr');
-        new_result.innerHTML = xhttp.responseText;
-        document.getElementById("results").appendChild(new_result);
+        build_tr();
       }
     };
     xhttp.open("GET", "/query/?url=" + to_research.shift(), true);
