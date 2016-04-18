@@ -33,5 +33,5 @@ class URL_Log(models.Model):
 class HTML_Log(models.Model):
     url = models.ForeignKey(URL_Log)
     html = models.TextField()
-    URLS = models.ManyToManyField(URL_Log)
+    urls = models.ManyToManyField(URL_Log)
     time_taken = models.DateTimeField(auto_now=True)
