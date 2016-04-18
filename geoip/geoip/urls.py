@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from miner.views import index_view
+from miner.views import index_view, form_submission
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index_view),
+    url(r'^submit/$', form_submission)
 ]
