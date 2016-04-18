@@ -16,37 +16,45 @@
 to_research = ['{{url}}'];
 done = []
 
-function main(){
-  var build_tr = function() {
-    var new_result = document.createElement('div');
-    new_result.innerHTML = xhttp.responseText;
-    document.getElementById("results").appendChild(new_result);
-  }
-  while (to_research.length > 0) {
-    if (to) {
-      this_round = to_research.shift();
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-          build_tr();
-        }
-      };
-      xhttp.open("GET", "/query/?url=" + this_round, true);
-      xhttp.send();
+function build_tr(text) {
+  var new_result = document.createElement('div');
+  new_result.innerHTML = text;
+  document.getElementById("results").appendChild(new_result);
+}
 
-      var url_xhttp = new XMLHttpRequest();
-      url_xhttp.onreadystatechange = function() {
-        if (url_xhttp.readyState == 4 && url_xhttp.status == 200) {
-          urls = eval(url_xhttp.responseText);
-          console.log(urls);
-          to_research = to_research.concat(urls);
-          main();
-        }
-      };
-      url_xhttp.open("GET", "/urls/?url=" + this_round, true);
-      url_xhttp.send();
+function get_ips(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      if (done.indexOf(url) == -1) {
+        build_tr(xhttp.responseText);
+        done.push(url);
+      }
+
     }
-  }
+  };
+  xhttp.open("GET", "/query/?url=" + url, true);
+  xhttp.send();
+}
+
+function get_urls(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      if (done.indexOf(url) == -1) {
+        to_research = to_research.concat(eval(xhttp.responseText));
+      }
+
+    }
+  };
+  xhttp.open("GET", "/urls/?url=" + url, true);
+  xhttp.send();
+}
+
+function main() {
+
+
+
 }
 
 </script>
