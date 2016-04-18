@@ -22,16 +22,16 @@ class Location(models.Model):
 
 class IP_Geo(models.Model):
     ip = models.GenericIPAddressField(unique=True)
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey("Location")
 
 
 class URL_Log(models.Model):
     url = models.URLField(unique=True)
-    ip = models.ManyToManyField(IP_Geo)
+    ip = models.ManyToManyField("IP_Geo", related_name="urls")
 
 
 class HTML_Log(models.Model):
-    url = models.ForeignKey(URL_Log)
+    url = models.ForeignKey("URL_Log")
     html = models.TextField()
-    urls = models.ManyToManyField(URL_Log)
+    urls = models.ManyToManyField("URL_Log", related_name="appears_in")
     time_taken = models.DateTimeField(auto_now=True)
