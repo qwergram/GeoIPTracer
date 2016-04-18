@@ -2,3 +2,19 @@
 <img src="http://i.imgur.com/f7PbKa9.png">
 <hr>
 <h3>Results for <a href="{{url}}">{{url}}</a></h3>
+<div id="results"></div>
+<script>
+  to_research = ['{{url}}'];
+  while (to_research.length > 0) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (xhttp.readyState == 4 && xhttp.status == 200) {
+        var new_result = document.createElement('div');
+        new_result.innerHTML = xhttp.responseText;
+        document.getElementById("results").appendChild(new_result);
+      }
+    };
+    xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
+    xhttp.send();
+  }
+</script>
