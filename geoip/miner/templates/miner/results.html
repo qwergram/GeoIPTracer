@@ -5,7 +5,7 @@
 <div id="results"></div>
 <script>
   to_research = ['{{url}}'];
-  while (to_research.length > 0) {
+  // while (to_research.length > 0) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -16,5 +16,5 @@
     };
     xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
     xhttp.send();
-  }
+  // }
 </script>
