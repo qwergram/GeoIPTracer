@@ -26,6 +26,7 @@ def get_urls(request, *args, **kwargs):
         return JsonResponse(to_return, safe=False)
     raise Http404("no url")
 
+
 def query(request, *args, **kwargs):
     url = request.GET.get('url')
     if url:
