@@ -3,13 +3,13 @@
 <hr>
 <h3>Results for <a href="{{url}}">{{url}}</a></h3>
 <table id="results">
-  <thead>
-    <tr><th>URL</th>
+  <tr>
+    <th>URL</th>
     <th>IP address</th>
     <th>Latitude</th>
     <th>Longitude</th>
-    <th>Country</th></tr>
-  </thead>
+    <th>Country</th>
+  </tr>
 </table>
 <script>
   to_research = ['{{url}}'];
@@ -17,7 +17,7 @@
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
-        var new_result = document.createElement('div');
+        var new_result = document.createElement('tr');
         new_result.innerHTML = xhttp.responseText;
         document.getElementById("results").appendChild(new_result);
       }
