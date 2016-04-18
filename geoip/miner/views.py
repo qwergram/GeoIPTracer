@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 import requests
 import socket
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 # Create your views here.
@@ -28,8 +29,7 @@ def get_urls(request, *args, **kwargs):
 def query(request, *args, **kwargs):
     url = request.GET.get('url')
     if url:
-        url = url.replace("http://", "")
-        url = url.replace("https://", "")
+        url = urlparse(url).netloc
         ips = socket.gethostbyname_ex(url)[2]
         data = []
         for ip in ips:
