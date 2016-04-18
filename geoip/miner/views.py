@@ -22,7 +22,7 @@ def query(request, *args, **kwargs):
                 "ip": ip,
                 "lat": api_data['lat'],
                 "lon": api_data['lon'],
-                "co": api_data['coountry']
+                "co": api_data['country']
             })
         return render(request, "miner/query.html", {"data": data})
     raise Http404("url not included")
