@@ -4,7 +4,7 @@ import requests
 import socket
 from urllib.parse import urlparse
 from bs4 import BeautifulSoup
-from .models import HTML_Log
+from .models import HTML_Log, URL_Log
 
 # Create your views here.
 
@@ -14,11 +14,15 @@ def api_ip(request, *args, **kwargs):
     url = request.GET.get('url')
     if url:
         # Check if we have an html log for this
-        qs = HTML_Log.objects.filter(url=url)
+        url = URL_Log.objects.filter(url__exact=url)
+        if url:
+            html = HTML_Log.objects.filter()
         if qs:
+            url = qs[0]
             return HttpResponse("It exists!")
         else:
-            return HttpResponse("It doesn't exist...")
+            return HttpResponse("It does not exist!")
+
 
 def get_urls(request, *args, **kwargs):
     url = request.GET.get('url')
