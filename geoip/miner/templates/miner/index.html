@@ -3,5 +3,6 @@
 <hr>
 <form action="/submit/" method="POST">
   <input type="text" placeholder="Type a url here">
+  {% csrf_token %}
   <input type="submit">
 </form>
