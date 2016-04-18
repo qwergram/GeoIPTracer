@@ -2,7 +2,15 @@
 <img src="http://i.imgur.com/f7PbKa9.png">
 <hr>
 <h3>Results for <a href="{{url}}">{{url}}</a></h3>
-<div id="results"></div>
+<table id="results">
+  <thead>
+    <tr><th>URL</th>
+    <th>IP address</th>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Country</th></tr>
+  </thead>
+</table>
 <script>
   to_research = ['{{url}}'];
   while (to_research.length > 0) {
