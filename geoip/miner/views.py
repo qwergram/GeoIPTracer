@@ -9,6 +9,10 @@ from bs4 import BeautifulSoup
 
 API_ENDPOINT = "http://ip-api.com/json/"
 
+def api_ip(request, *args, **kwargs):
+    url = request.GET.get('url')
+    if url:
+        
 
 def get_urls(request, *args, **kwargs):
     url = request.GET.get('url')
