@@ -14,6 +14,7 @@
 </div>
 <script>
 to_research = ['{{url}}'];
+done = []
 
 function main(){
   var build_tr = function() {
@@ -22,27 +23,29 @@ function main(){
     document.getElementById("results").appendChild(new_result);
   }
   while (to_research.length > 0) {
-    this_round = to_research.shift();
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (xhttp.readyState == 4 && xhttp.status == 200) {
-        build_tr();
-      }
-    };
-    xhttp.open("GET", "/query/?url=" + this_round, true);
-    xhttp.send();
+    if (to) {
+      this_round = to_research.shift();
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          build_tr();
+        }
+      };
+      xhttp.open("GET", "/query/?url=" + this_round, true);
+      xhttp.send();
 
-    var url_xhttp = new XMLHttpRequest();
-    url_xhttp.onreadystatechange = function() {
-      if (url_xhttp.readyState == 4 && url_xhttp.status == 200) {
-        urls = eval(url_xhttp.responseText);
-        console.log(urls);
-        to_research = to_research.concat(urls);
-        main();
-      }
-    };
-    url_xhttp.open("GET", "/urls/?url=" + this_round, true);
-    url_xhttp.send();
+      var url_xhttp = new XMLHttpRequest();
+      url_xhttp.onreadystatechange = function() {
+        if (url_xhttp.readyState == 4 && url_xhttp.status == 200) {
+          urls = eval(url_xhttp.responseText);
+          console.log(urls);
+          to_research = to_research.concat(urls);
+          main();
+        }
+      };
+      url_xhttp.open("GET", "/urls/?url=" + this_round, true);
+      url_xhttp.send();
+    }
   }
 }
 
