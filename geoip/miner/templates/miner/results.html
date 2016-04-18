@@ -5,7 +5,7 @@
 <div id="results"></div>
 <script>
   to_research = ['{{url}}'];
-  // while (to_research.length > 0) {
+  while (to_research.length > 0) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -14,7 +14,7 @@
         document.getElementById("results").appendChild(new_result);
       }
     };
-    xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
+    xhttp.open("GET", "/query/" + to_research.shift(), true);
     xhttp.send();
-  // }
+  }
 </script>
