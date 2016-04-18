@@ -21,11 +21,11 @@ from miner.views import (
     test,
     query,
     get_urls,
-    get_ip
+    api_ip
 )
 
 bot_api_endpoints = [
-    url(r'^api/ip/$', get_ip),
+    url(r'^api/ip/$', api_ip),
 ]
 
 urlpatterns = [
