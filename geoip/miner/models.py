@@ -3,11 +3,15 @@ from django.db import models
 # Create your models here.
 
 
-class Location(models.Model):
+class IP_Geo(models.Model):
 
     class Meta:
-        unique_together = ("lat", "lon")
+        verbose_name = "IP Record"
 
+    def __str__(self):
+        return self.ip
+
+    ip = models.GenericIPAddressField(unique=True)
     city = models.CharField(max_length=255)
     region = models.CharField(max_length=255)
     country = models.CharField(max_length=255)
@@ -30,13 +34,16 @@ class Location(models.Model):
             ]
         }
 
-class IP_Geo(models.Model):
+class IPConnections(models.Model):
 
-    class Meta:
-        verbose_name = "IP Record"
+    # class Meta:
+        # unique_together = (from_ip, to_ip,)
 
-    ip = models.GenericIPAddressField(unique=True)
-    location = models.ForeignKey("Location")
+    from_ip = models.GenericIPAddressField()
+    to_ip = models.GenericIPAddressField()
+
+    def __str__(self):
+        return self.from_ip + ' -> ' + self.to_ip
 
 
 class URL_Log(models.Model):
@@ -46,6 +53,7 @@ class URL_Log(models.Model):
 
     url = models.URLField(unique=True)
     ip = models.ManyToManyField("IP_Geo", related_name="urls")
+    connections = models.ManyToManyField("URL_Log")
 
 
 class HTML_Log(models.Model):

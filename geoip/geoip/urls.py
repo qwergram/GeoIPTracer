@@ -17,11 +17,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from miner.views import (
     index_view,
-    form_submission,
-    test,
-    query,
-    get_urls,
-    api_ip
+    api_ip,
+    new_path,
+    current_geojson,
 )
 
 bot_api_endpoints = [
@@ -29,10 +27,8 @@ bot_api_endpoints = [
 ]
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
     url(r'^$', index_view, name="index"),
-    url(r'^submit/$', form_submission, name="submit"),
-    url(r'^test/$', test, name="test"),
-    url(r'^query/', query, name="query"),
-    url(r'^urls/', get_urls, name="urls"),
+    url(r'^admin/', admin.site.urls),
+    url(r'^new_path/$', new_path),
+    url(r'^geojson/$', current_geojson)
 ] + bot_api_endpoints
