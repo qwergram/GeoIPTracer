@@ -19,6 +19,16 @@ class Location(models.Model):
     isp = models.CharField(max_length=255)
     org = models.CharField(max_length=255)
 
+    def as_geojson(self):
+        return {
+            "type": "Feature",
+            "properties": {},
+            "type": "Point",
+            "coordinates": [
+                self.lon,
+                self.lat
+            ]
+        }
 
 class IP_Geo(models.Model):
 
@@ -43,7 +53,7 @@ class HTML_Log(models.Model):
     class Meta:
         verbose_name = "HTML Record"
 
-    url = models.ForeignKey("URL_Log")
+    url = models.ForeignKey("URL_Log", related_name="html")
     html = models.TextField()
     urls = models.ManyToManyField("URL_Log", related_name="appears_in")
     time_taken = models.DateTimeField(auto_now=True)
