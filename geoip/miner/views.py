@@ -26,7 +26,7 @@ def new_path(request):
 
     for ip in (from_ip, to_ip):
         api_data = requests.get(API_ENDPOINT + ip).json()
-        geo_data = requests.get('http://nominatim.openstreetmap.org/search?format=json&q={}'.format("%20".join(api_data['city'].split() + [api_data['stateprov']]))).json()
+        geo_data = requests.get('http://nominatim.openstreetmap.org/search?format=json&q={}'.format("%20".join(api_data['city'].split() + [api_data['stateprov']])), headers={'User-agent': "CodeFellows App"}).json()
         geo_data.append({})
         IP_Geo.objects.get_or_create(
             ip=ip,
@@ -57,35 +57,39 @@ def current_geojson(request):
         "features": []
     }
 
-    for ipgeo in IP_Geo.objects.all():
-        to_return['features'].append({
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    ipgeo.lon,
-                    ipgeo.lat
-                ]
-            }
-        })
+    # for ipgeo in IP_Geo.objects.all():
+    #     to_return['features'].append({
+    #         "type": "Feature",
+    #         "properties": {},
+    #         "geometry": {
+    #             "type": "Point",
+    #             "coordinates": [
+    #                 ipgeo.lon,
+    #                 ipgeo.lat
+    #             ]
+    #         }
+    #     })
     for ipconn in IPConnections.objects.all():
-        to_return['features'].append({
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "LineString",
-                "coordinates": [
-                    [
-                        IP_Geo.objects.get(ip=ipconn.from_ip).lon,
-                        IP_Geo.objects.get(ip=ipconn.from_ip).lat
-                    ],
-                    [
-                        IP_Geo.objects.get(ip=ipconn.to_ip).lon,
-                        IP_Geo.objects.get(ip=ipconn.to_ip).lat
+        if (IP_Geo.objects.get(ip=ipconn.from_ip).lon and IP_Geo.objects.get(ip=ipconn.from_ip).lat and IP_Geo.objects.get(ip=ipconn.to_ip).lon and IP_Geo.objects.get(ip=ipconn.to_ip).lat):
+            to_return['features'].append({
+                "type": "Feature",
+                "properties": {
+                    "from_ip": ipconn.from_ip,
+                    "to_ip": ipconn.to_ip,
+                },
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                        [
+                            IP_Geo.objects.get(ip=ipconn.from_ip).lon,
+                            IP_Geo.objects.get(ip=ipconn.from_ip).lat
+                        ],
+                        [
+                            IP_Geo.objects.get(ip=ipconn.to_ip).lon,
+                            IP_Geo.objects.get(ip=ipconn.to_ip).lat
+                        ]
                     ]
-                ]
-            }
-        })
+                }
+            })
 
     return JsonResponse(to_return)
