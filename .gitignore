@@ -60,3 +60,11 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Virtual Env
+bin/
+lib64
+pyvenv.cfg
+
+# Local Databse
+db.sqlite3

@@ -1,0 +1,64 @@
+<h1>GeoIP Locator Alpha!</h1>
+<img src="http://i.imgur.com/f7PbKa9.png">
+<hr>
+<h3>Results for <a href="{{url}}">{{url}}</a></h3>
+<div id="results">
+  <div>
+    <div>URL</div>
+    <div>IP address</div>
+    <div>Latitude</div>
+    <div>Longitude</div>
+    <div>Country</div>
+  </div>
+  <br/>
+</div>
+<script>
+to_research = ['{{url}}'];
+done = []
+
+function build_tr(text) {
+  var new_result = document.createElement('div');
+  new_result.innerHTML = text;
+  document.getElementById("results").appendChild(new_result);
+}
+
+function get_ips(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      build_tr(xhttp.responseText);
+    }
+  };
+  xhttp.open("GET", "/query/?url=" + url, true);
+  xhttp.send();
+}
+
+function get_urls(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      to_research = to_research.concat(eval(xhttp.responseText));
+    }
+  };
+  xhttp.open("GET", "/urls/?url=" + url, true);
+  xhttp.send();
+}
+
+function handle_one_url() {
+  url = to_research.shift();
+  console.log(url);
+  if (done.indexOf(url) == -1) {
+    get_ips(url);
+    get_urls(url);
+  }
+}
+
+function main() {
+  i = 0;
+  n = 100;
+  setInterval(function() { i++; if (i < n) { handle_one_url(); } }, 1000);
+}
+
+// main()
+
+</script>
